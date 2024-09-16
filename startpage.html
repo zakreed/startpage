@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-neutral-900 flex justify-center text-white font-mono">
+    <main class="max-w-screen-2xl w-full px-8 pb-8 pt-32">
+        <div class="flex justify-between text-4xl">
+            <h1 id="time"></h1>
+            <h1 id="date"></h1>
+        </div>
+        <div class="w-full py-64 flex flex-col justify-center items-center">
+            <p class="text-sm text-neutral-700">Where do you want to go?</p>
+            <input id="search" type="text" class="h-10 w-[500px] rounded-xl border border-neutral-700 bg-neutral-800 px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 mt-8">
+        </div>
+        <div class="grid gap-8 grid-cols-4 mt-8">
+            <a href="https://youtube.com" class="p-8 rounded-xl border border-neutral-700 bg-neutral-800 shadow-md hover:bg-red-600 hover:shadow-red-600 hover:border-red-500 duration-150">Youtube</a>
+            <a href="https://x.com" class="p-8 rounded-xl border border-neutral-700 bg-neutral-800 shadow-md hover:bg-black hover:shadow-black hover:border-neutral-900 duration-150">X</a>
+            <a href="https://u.gg" class="p-8 rounded-xl border border-neutral-700 bg-neutral-800 shadow-md hover:bg-indigo-600 hover:shadow-indigo-600 hover:border-indigo-500 duration-150">u.gg</a>
+            <a href="https://chatgpt.com" class="p-8 rounded-xl border border-neutral-700 bg-neutral-800 shadow-md hover:bg-black hover:shadow-black hover:border-neutral-900 duration-150">ChatGPT</a>
+            <a href="https://lolesports.com" class="p-8 rounded-xl border border-neutral-700 bg-neutral-800 shadow-md hover:bg-blue-600 hover:shadow-blue-600 hover:border-blue-500 duration-150">LoL Esports</a>
+            <a href="https://github.com" class="p-8 rounded-xl border border-neutral-700 bg-neutral-800 shadow-md hover:bg-white hover:shadow-white hover:border-gray-300 duration-150 hover:text-black">Github</a>
+            <a href="https://wikipedia.com" class="p-8 rounded-xl border border-neutral-700 bg-neutral-800 shadow-md hover:bg-white hover:shadow-white hover:border-gray-300 duration-150 hover:text-black">Wikipedia</a>
+            <a href="https://rateyourmusic.com" class="p-8 rounded-xl border border-neutral-700 bg-neutral-800 shadow-md hover:bg-blue-800 hover:shadow-blue-800 hover:border-blue-700 duration-150">Rate Your Music</a>
+        </div>
+    </main>
+</body>
+
+
+<script>
+    const dateElement = document.getElementById("date");
+    const timeElement = document.getElementById("time");
+    const searchElement = document.getElementById("search")
+
+    searchElement.focus()
+
+    setInterval(() => {
+        const dateObject = new Date()
+        const year = dateObject.getFullYear()
+        const month = dateObject.getMonth() + 1
+        const day = dateObject.getDate()
+        const hour = dateObject.getHours().toString().padStart(2, 0);
+        const minute = dateObject.getMinutes().toString().padStart(2, 0);
+        const second = dateObject.getSeconds().toString().padStart(2, 0);
+
+        dateElement.innerText = `${year}/${month}/${day}`;
+        timeElement.innerText = `${hour}:${minute}:${second}`;
+    }, 10);
+
+    searchElement.addEventListener("keydown", (e) => {
+        if (e.key == "Enter") {
+            let searchInput = searchElement.value;
+            if (!searchInput.includes(".")) {
+                window.location.assign(`http://www.${searchElement.value}.com`)
+            } else {
+                window.location.assign(`http://www.${searchElement.value}`)
+            }
+        }
+    })
+</script>
+</html>
