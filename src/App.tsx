@@ -31,7 +31,7 @@ function CurrentDate() {
     )
 }
 
-function DropdownItem({ type, text, website, selected }) {
+function DropdownItem({ type, text, website, index, selected }) {
     let displayText = ""
     if (type == "search") {
         displayText = `Search ${text} with ${website}`
@@ -44,34 +44,32 @@ function DropdownItem({ type, text, website, selected }) {
             window.location.assign(`http://www.${text}`)
         }
         else if (type == "search" && website == "Google") {
-            console.log(`http://www.${website}.com/search?q=${text}`)
             window.location.assign(`http://www.${website}.com/search?q=${text}`)
         }
         else if (type == "search" && website == "Youtube") {
-            console.log(`http://www.${website}.com/search?q=${text}`)
             window.location.assign(`http://www.${website}.com/results?search_query=${text}`)
         }
         else if (type == "search" && website == "Wikipedia") {
-            console.log(`http://en.${website}.org/wiki/${text}`)
             window.location.assign(`http://en.${website}.org/wiki/${text}`)
         }
     }
 
     return (
-        <div className="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700" onClick={onClickCallback}>
+        <div className={`p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 ${index === selected ? "bg-neutral-700" : ""}`} onClick={onClickCallback}>
             <p className="text-left text-neutral-400 select-none">{displayText}</p>
         </div>
     )
 }
 
-
 function Dropdown({ inputText }) {
+    let [selected, setSelected] = useState(0);
+
     const gotoDropdown = [{ type: "goto", text: inputText }];
     const searchDropdowns = [
         { type: "search", text: inputText, website: "Google" },
         { type: "search", text: inputText, website: "Youtube" },
         { type: "search", text: inputText, website: "Wikipedia" },
-    ]
+    ];
 
     let allDropdowns = [];
     if (inputText.includes(".")) {
@@ -80,8 +78,24 @@ function Dropdown({ inputText }) {
         allDropdowns = [...gotoDropdown, ...searchDropdowns];
     }
 
-    const listItems = allDropdowns.map((element) =>
-        <DropdownItem type={element.type} text={element.text} website={element.website} />
+    useEffect(() => {
+        function handleKeyDown(e) {
+            if (e.key === "ArrowDown") {
+                setSelected(selected += 1);
+            }
+            if (e.key === "ArrowUp") {
+                setSelected(selected -= 1);
+            }
+        }
+        document.addEventListener('keydown', handleKeyDown);
+
+        return function cleanup() {
+            document.removeEventListener("keydown", handleKeyDown);
+        }
+    })
+
+    const listItems = allDropdowns.map((element, index) =>
+        <DropdownItem type={element.type} text={element.text} website={element.website} key={index} index={index} selected={selected} />
     )
 
     return (
@@ -90,7 +104,6 @@ function Dropdown({ inputText }) {
         </>
     )
 }
-
 
 function SearchBar() {
     const [searchText, setSearchText] = useState("");
@@ -110,7 +123,7 @@ function SearchBar() {
                 onBlur={() => setIsSearchSelected(false)}
                 onChange={e => setSearchText(e.target.value)}
             />
-            <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] max-h-96 overflow-auto bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-1 text-sm mt-[500px]`}>
+            <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] max-h-96 overflow-auto bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-1 text-sm mt-[500px] ${Boolean(searchText) ? "block" : "hidden"}`}>
                 <Dropdown inputText={searchText} />
             </div>
         </div>
