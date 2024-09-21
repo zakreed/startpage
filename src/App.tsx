@@ -66,14 +66,21 @@ function DropdownItem({ type, text, website, selected }) {
 
 
 function Dropdown({ inputText }) {
-    const defaultDropdowns = [
-        { type: "goto", text: inputText },
+    const gotoDropdown = [{ type: "goto", text: inputText }];
+    const searchDropdowns = [
         { type: "search", text: inputText, website: "Google" },
         { type: "search", text: inputText, website: "Youtube" },
         { type: "search", text: inputText, website: "Wikipedia" },
-    ];
+    ]
 
-    const listItems = defaultDropdowns.map((element) =>
+    let allDropdowns = [];
+    if (inputText.includes(".")) {
+        allDropdowns = gotoDropdown;
+    } else {
+        allDropdowns = [...gotoDropdown, ...searchDropdowns];
+    }
+
+    const listItems = allDropdowns.map((element) =>
         <DropdownItem type={element.type} text={element.text} website={element.website} />
     )
 
