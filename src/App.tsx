@@ -1,34 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
 
-function App() {
-    const [count, setCount] = useState(0)
+function Clock() {
+    const [time, setTime] = useState("");
+
+    useEffect(() => {
+        setInterval(() => {
+            const currentDate = new Date()
+            const hour = currentDate.getHours().toString().padStart(2, "0");
+            const minute = currentDate.getMinutes().toString().padStart(2, "0");
+            const second = currentDate.getSeconds().toString().padStart(2, "0");
+
+            setTime(`${hour}:${minute}:${second}`);
+        }, 10);
+    })
 
     return (
-        <>
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </>
+        <p>{time}</p>
+    )
+}
+
+function CurrentDate() {
+    const currentDate = new Date()
+    const year = currentDate.getFullYear()
+    const month = currentDate.getMonth() + 1
+    const day = currentDate.getDate()
+
+    return (
+        <p>{`${year}/${month}/${day}`}</p>
+    )
+}
+
+function App() {
+    const [searchText, setSearchText] = useState("");
+
+    return (
+        <main className="p-8 text-white font-mono">
+            <header className="flex justify-between text-2xl">
+                <Clock />
+                <CurrentDate />
+            </header>
+            <input
+                name="searchText"
+                type="text"
+                className="h-10 w-[350px] md:w-[400px] lg:w-[500px] rounded-xl border border-neutral-700 bg-neutral-800 shadow-md px-3 py-1 text-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 mt-8 relative"
+                onChange={e => setSearchText(e.target.value)}
+            />
+        </main>
     )
 }
 
