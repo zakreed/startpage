@@ -64,6 +64,27 @@ function DropdownItem({ type, text, website, selected }) {
     )
 }
 
+
+function Dropdown({ inputText }) {
+    const defaultDropdowns = [
+        { type: "goto", text: inputText },
+        { type: "search", text: inputText, website: "Google" },
+        { type: "search", text: inputText, website: "Youtube" },
+        { type: "search", text: inputText, website: "Wikipedia" },
+    ];
+
+    const listItems = defaultDropdowns.map((element) =>
+        <DropdownItem type={element.type} text={element.text} website={element.website} />
+    )
+
+    return (
+        <>
+            {listItems}
+        </>
+    )
+}
+
+
 function SearchBar() {
     const [searchText, setSearchText] = useState("");
     const [isSearchSelected, setIsSearchSelected] = useState(true)
@@ -83,10 +104,7 @@ function SearchBar() {
                 onChange={e => setSearchText(e.target.value)}
             />
             <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] max-h-96 overflow-auto bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-1 text-sm mt-[500px]`}>
-                <DropdownItem type="goto" text={searchText} />
-                <DropdownItem type="search" text={searchText} website="Google" />
-                <DropdownItem type="search" text={searchText} website="Youtube" />
-                <DropdownItem type="search" text={searchText} website="Wikipedia" />
+                <Dropdown inputText={searchText} />
             </div>
         </div>
     )
