@@ -80,11 +80,20 @@ function Dropdown({ inputText }) {
 
     useEffect(() => {
         function handleKeyDown(e) {
+            console.log(selected)
             if (e.key === "ArrowDown") {
-                setSelected(selected += 1);
+                if (selected >= allDropdowns.length - 1) {
+                    setSelected(0);
+                } else {
+                    setSelected(selected += 1);
+                }
             }
             if (e.key === "ArrowUp") {
-                setSelected(selected -= 1);
+                if (selected <= 0) {
+                    setSelected(allDropdowns.length - 1);
+                } else {
+                    setSelected(selected -= 1);
+                }
             }
         }
         document.addEventListener('keydown', handleKeyDown);
