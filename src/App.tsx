@@ -54,6 +54,19 @@ function DropdownItem({ type, text, website, index, selected }) {
         }
     }
 
+    useEffect(() => {
+        function handleKeyDown(e) {
+            if (e.key === "Enter" && index === selected) {
+                onClickCallback()
+            }
+        }
+        document.addEventListener('keydown', handleKeyDown);
+
+        return function cleanup() {
+            document.removeEventListener("keydown", handleKeyDown);
+        }
+    })
+
     return (
         <div className={`p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 ${index === selected ? "bg-neutral-700" : ""}`} onClick={onClickCallback}>
             <p className="text-left text-neutral-400 select-none">{displayText}</p>
