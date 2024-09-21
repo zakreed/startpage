@@ -185,7 +185,7 @@ function SearchBar() {
 function App() {
     return (
         <main className="p-8 text-white font-mono">
-            <header className="flex justify-between text-2xl">
+            <header className="flex justify-between text-lg md:text-2xl">
                 <Clock />
                 <CurrentDate />
             </header>
