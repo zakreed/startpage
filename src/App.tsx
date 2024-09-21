@@ -31,6 +31,14 @@ function CurrentDate() {
     )
 }
 
+function DropdownItem({ text, website }) {
+    return (
+        <div className="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 focus:bg-neutral-700">
+            <p className="text-left text-neutral-400 select-none">{`Search ${text} with ${website}`}</p>
+        </div>
+    )
+}
+
 function SearchBar() {
     const [searchText, setSearchText] = useState("");
     const [isSearchSelected, setIsSearchSelected] = useState(true)
@@ -49,7 +57,10 @@ function SearchBar() {
                 onBlur={() => setIsSearchSelected(false)}
                 onChange={e => setSearchText(e.target.value)}
             />
-            <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-4 text-sm mt-[149px] ${isDropdownVisible ? "block" : "hidden"}`}>
+            <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] max-h-96 overflow-auto bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-1 text-sm mt-[500px]`}>
+                <DropdownItem text={searchText} website="Google" />
+                <DropdownItem text={searchText} website="Youtube" />
+                <DropdownItem text={searchText} website="Wikipedia" />
             </div>
         </div>
     )
