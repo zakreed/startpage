@@ -1,6 +1,18 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
+interface dropdownItemProps {
+    type: string;
+    text: string;
+    website?: string;
+    index: number;
+    selected: number;
+}
+
+interface dropdownProps {
+    inputText: string;
+}
+
 function Clock() {
     const [time, setTime] = useState("");
 
@@ -31,7 +43,7 @@ function CurrentDate() {
     )
 }
 
-function DropdownItem({ type, text, website, index, selected }) {
+function DropdownItem({ type, text, website, index, selected }: dropdownItemProps) {
     let displayText = ""
     if (type == "search") {
         displayText = `Search ${text} with ${website}`
@@ -55,7 +67,7 @@ function DropdownItem({ type, text, website, index, selected }) {
     }
 
     useEffect(() => {
-        function handleKeyDown(e) {
+        function handleKeyDown(e: KeyboardEvent) {
             if (e.key === "Enter" && index === selected) {
                 onClickCallback()
             }
@@ -74,10 +86,10 @@ function DropdownItem({ type, text, website, index, selected }) {
     )
 }
 
-function Dropdown({ inputText }) {
+function Dropdown({ inputText }: dropdownProps) {
     let [selected, setSelected] = useState(0);
 
-    const gotoDropdown = [{ type: "goto", text: inputText }];
+    const gotoDropdown = [{ type: "goto", text: inputText, website: "" }];
     const searchDropdowns = [
         { type: "search", text: inputText, website: "Google" },
         { type: "search", text: inputText, website: "Youtube" },
@@ -92,7 +104,7 @@ function Dropdown({ inputText }) {
     }
 
     useEffect(() => {
-        function handleKeyDown(e) {
+        function handleKeyDown(e: KeyboardEvent) {
             console.log(selected)
             if (e.key === "ArrowDown") {
                 if (selected >= allDropdowns.length - 1) {
@@ -129,9 +141,6 @@ function Dropdown({ inputText }) {
 
 function SearchBar() {
     const [searchText, setSearchText] = useState("");
-    const [isSearchSelected, setIsSearchSelected] = useState(true)
-
-    const isDropdownVisible: boolean = isSearchSelected && Boolean(searchText)
 
     return (
         <div className="mt-32 flex flex-col justify-center items-center relative">
@@ -141,9 +150,7 @@ function SearchBar() {
                     name="searchText"
                     type="text"
                     autoFocus
-                    className={`h-10 w-[350px] md:w-[400px] lg:w-[500px] rounded-x-xl rounded-t-xl border border-neutral-700 bg-neutral-800 shadow-md px-3 py-1 text-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 mt-8 ${!isDropdownVisible ? "rounded-b-xl" : ""}`}
-                    onFocus={() => setIsSearchSelected(true)}
-                    onBlur={() => setIsSearchSelected(false)}
+                    className={`h-10 w-[350px] md:w-[400px] lg:w-[500px] rounded-x-xl rounded-t-xl border border-neutral-700 bg-neutral-800 shadow-md px-3 py-1 text-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 mt-8 ${!Boolean(searchText) ? "rounded-b-xl" : ""}`}
                     onChange={e => setSearchText(e.target.value)}
                 />
                 <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] max-h-96 overflow-auto bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-1 text-sm origin-top-right ${Boolean(searchText) ? "block" : "hidden"}`}>
