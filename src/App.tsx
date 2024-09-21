@@ -31,10 +31,35 @@ function CurrentDate() {
     )
 }
 
-function DropdownItem({ text, website }) {
+function DropdownItem({ type, text, website, selected }) {
+    let displayText = ""
+    if (type == "search") {
+        displayText = `Search ${text} with ${website}`
+    } else if (type == "goto") {
+        displayText = `Go to ${text}`
+    }
+
+    function onClickCallback() {
+        if (type == "goto") {
+            window.location.assign(`http://www.${text}`)
+        }
+        else if (type == "search" && website == "Google") {
+            console.log(`http://www.${website}.com/search?q=${text}`)
+            window.location.assign(`http://www.${website}.com/search?q=${text}`)
+        }
+        else if (type == "search" && website == "Youtube") {
+            console.log(`http://www.${website}.com/search?q=${text}`)
+            window.location.assign(`http://www.${website}.com/results?search_query=${text}`)
+        }
+        else if (type == "search" && website == "Wikipedia") {
+            console.log(`http://en.${website}.org/wiki/${text}`)
+            window.location.assign(`http://en.${website}.org/wiki/${text}`)
+        }
+    }
+
     return (
-        <div className="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 focus:bg-neutral-700">
-            <p className="text-left text-neutral-400 select-none">{`Search ${text} with ${website}`}</p>
+        <div className="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700" onClick={onClickCallback}>
+            <p className="text-left text-neutral-400 select-none">{displayText}</p>
         </div>
     )
 }
@@ -58,9 +83,10 @@ function SearchBar() {
                 onChange={e => setSearchText(e.target.value)}
             />
             <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] max-h-96 overflow-auto bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-1 text-sm mt-[500px]`}>
-                <DropdownItem text={searchText} website="Google" />
-                <DropdownItem text={searchText} website="Youtube" />
-                <DropdownItem text={searchText} website="Wikipedia" />
+                <DropdownItem type="goto" text={searchText} />
+                <DropdownItem type="search" text={searchText} website="Google" />
+                <DropdownItem type="search" text={searchText} website="Youtube" />
+                <DropdownItem type="search" text={searchText} website="Wikipedia" />
             </div>
         </div>
     )
