@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import googleIcon from "./assets/icons/google.svg"
+import youtubeIcon from "./assets/icons/youtube.svg"
+import wikipediaIcon from "./assets/icons/wikipedia.svg"
+import globeIcon from "./assets/icons/globe.svg"
 
 interface dropdownItemProps {
     type: string;
@@ -44,7 +48,24 @@ function CurrentDate() {
 }
 
 function DropdownItem({ type, text, website, index, selected }: dropdownItemProps) {
-    let displayText = ""
+
+    let icon = "";
+    switch (website) {
+        case "Google":
+            icon = googleIcon;
+            break;
+        case "Youtube":
+            icon = youtubeIcon;
+            break;
+        case "Wikipedia":
+            icon = wikipediaIcon;
+            break;
+        default:
+            icon = globeIcon;
+            break;
+    }
+
+    let displayText = "";
     if (type == "search") {
         displayText = `Search ${text} with ${website}`
     } else if (type == "goto") {
@@ -80,7 +101,8 @@ function DropdownItem({ type, text, website, index, selected }: dropdownItemProp
     })
 
     return (
-        <div className={`p-2 rounded-md hover:bg-neutral-700 ${index === selected ? "bg-neutral-700" : "bg-neutral-800"}`} onClick={onClickCallback}>
+        <div className={`flex space-x-4 p-2 rounded-md hover:bg-neutral-700 ${index === selected ? "bg-neutral-700" : "bg-neutral-800"}`} onClick={onClickCallback}>
+            <img src={icon} width="16" />
             <p className="text-left text-neutral-400 select-none">{displayText}</p>
         </div>
     )
