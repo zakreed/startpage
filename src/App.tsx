@@ -80,7 +80,7 @@ function DropdownItem({ type, text, website, index, selected }: dropdownItemProp
     })
 
     return (
-        <div className={`p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 ${index === selected ? "bg-neutral-700" : ""}`} onClick={onClickCallback}>
+        <div className={`p-2 rounded-md hover:bg-neutral-700 ${index === selected ? "bg-neutral-700" : "bg-neutral-800"}`} onClick={onClickCallback}>
             <p className="text-left text-neutral-400 select-none">{displayText}</p>
         </div>
     )
@@ -105,7 +105,6 @@ function Dropdown({ inputText }: dropdownProps) {
 
     useEffect(() => {
         function handleKeyDown(e: KeyboardEvent) {
-            console.log(selected)
             if (e.key === "ArrowDown") {
                 if (selected >= allDropdowns.length - 1) {
                     setSelected(0);
