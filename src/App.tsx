@@ -34,7 +34,8 @@ function CurrentDate() {
 function SearchBar() {
     const [searchText, setSearchText] = useState("");
     const [isSearchSelected, setIsSearchSelected] = useState(true)
-    const isDropdownVisible = false;
+
+    const isDropdownVisible: boolean = isSearchSelected && Boolean(searchText)
 
     return (
         <div className="mt-32 flex flex-col justify-center items-center">
@@ -44,9 +45,11 @@ function SearchBar() {
                 type="text"
                 autoFocus
                 className={`h-10 w-[350px] md:w-[400px] lg:w-[500px] rounded-x-xl rounded-t-xl border border-neutral-700 bg-neutral-800 shadow-md px-3 py-1 text-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 mt-8 relative ${!isDropdownVisible ? "rounded-b-xl" : ""}`}
+                onFocus={() => setIsSearchSelected(true)}
+                onBlur={() => setIsSearchSelected(false)}
                 onChange={e => setSearchText(e.target.value)}
             />
-            <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-4 text-sm mt-[125px] ${isDropdownVisible ? "block" : "hidden"}`}>
+            <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-4 text-sm mt-[149px] ${isDropdownVisible ? "block" : "hidden"}`}>
             </div>
         </div>
     )
