@@ -100,7 +100,7 @@ function Dropdown({ inputText }: dropdownProps) {
     if (inputText.includes(".")) {
         allDropdowns = gotoDropdown;
     } else {
-        allDropdowns = [...gotoDropdown, ...searchDropdowns];
+        allDropdowns = [...searchDropdowns, ...gotoDropdown,];
     }
 
     useEffect(() => {
