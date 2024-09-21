@@ -134,19 +134,21 @@ function SearchBar() {
     const isDropdownVisible: boolean = isSearchSelected && Boolean(searchText)
 
     return (
-        <div className="mt-32 flex flex-col justify-center items-center">
+        <div className="mt-32 flex flex-col justify-center items-center relative">
             <p className="text-sm text-neutral-700">Where do you want to go?</p>
-            <input
-                name="searchText"
-                type="text"
-                autoFocus
-                className={`h-10 w-[350px] md:w-[400px] lg:w-[500px] rounded-x-xl rounded-t-xl border border-neutral-700 bg-neutral-800 shadow-md px-3 py-1 text-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 mt-8 relative ${!isDropdownVisible ? "rounded-b-xl" : ""}`}
-                onFocus={() => setIsSearchSelected(true)}
-                onBlur={() => setIsSearchSelected(false)}
-                onChange={e => setSearchText(e.target.value)}
-            />
-            <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] max-h-96 overflow-auto bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-1 text-sm mt-[500px] ${Boolean(searchText) ? "block" : "hidden"}`}>
-                <Dropdown inputText={searchText} />
+            <div className="relative">
+                <input
+                    name="searchText"
+                    type="text"
+                    autoFocus
+                    className={`h-10 w-[350px] md:w-[400px] lg:w-[500px] rounded-x-xl rounded-t-xl border border-neutral-700 bg-neutral-800 shadow-md px-3 py-1 text-sm transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 mt-8 ${!isDropdownVisible ? "rounded-b-xl" : ""}`}
+                    onFocus={() => setIsSearchSelected(true)}
+                    onBlur={() => setIsSearchSelected(false)}
+                    onChange={e => setSearchText(e.target.value)}
+                />
+                <div className={`absolute w-[350px] md:w-[400px] lg:w-[500px] max-h-96 overflow-auto bg-neutral-800 border-x border-b border-neutral-700 shadow-xl rounded-b-lg rounded-x-lg p-1 text-sm origin-top-right ${Boolean(searchText) ? "block" : "hidden"}`}>
+                    <Dropdown inputText={searchText} />
+                </div>
             </div>
         </div>
     )
